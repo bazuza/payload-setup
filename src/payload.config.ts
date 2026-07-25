@@ -26,7 +26,7 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URI || '',
+      connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
       // max:1 is needed for Vercel serverless — but in dev it deadlocks because
       // connect.js calls pool.connect() for keepalive, consuming the only slot
       // before pushDevSchema can acquire a connection.
