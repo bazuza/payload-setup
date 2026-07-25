@@ -37,7 +37,7 @@ src/
 - `tsconfig.json` has `@payload-config` path alias → `src/payload.config.ts`
 - Tailwind v4 uses `@tailwindcss/postcss` in `postcss.config.mjs` instead of the old `tailwindcss` plugin
 - `(payload)/layout.tsx` imports from `@payloadcms/next/layouts` — only `RootLayout` and `handleServerFunctions` exist in v3.86.0 (`generatePayloadViewport` does NOT exist)
-- Pool `max` is conditional in `payload.config.ts`: `10` in dev, `1` in production (Vercel serverless). See "Database hang root cause" below for why.
+- Pool `max` is conditional in `payload.config.ts`: `10` in dev, `3` in production (Vercel serverless). See "Database hang root cause" below for why.
 
 ## Dev Commands
 
@@ -81,7 +81,7 @@ DATABASE_URI=postgresql://postgres:postgres@127.0.0.1:5432/elucient?sslmode=disa
 1. Payload's `connect.js` calls `pool.connect()` to hold a keepalive client → checks out the only slot (`max: 1`)
 2. `pushDevSchema` then calls `drizzleInstance.execute()` to introspect the schema → tries to acquire another pool slot → waits forever
 
-**Fix**: `max: 1` is only set in production. In dev, `max: 10` allows both the keepalive connection and schema-push queries to coexist.
+**Fix**: `max: 3` in production (not 1). `max: 1` causes the same deadlock in production — keepalive holds the only slot, and `migrate()` + request handlers starve. `max: 3` gives room for keepalive + migrations + request handlers without exhausting Neon's connection limit. In dev, `max: 10`.
 
 **Additional fixes applied**:
 
@@ -94,10 +94,10 @@ DATABASE_URI=postgresql://postgres:postgres@127.0.0.1:5432/elucient?sslmode=disa
 Use **Neon** (Vercel Postgres is Neon under the hood):
 
 - Vercel Dashboard → Storage → Create Database → Postgres
-- Use the **pooled** connection string (critical for serverless)
-- Set `DATABASE_URI` in Vercel environment variables
+- Neon integration auto-creates `DATABASE_URL` in Vercel env vars
+- Payload config falls back: `process.env.DATABASE_URI || process.env.DATABASE_URL`
 
-Payload runs Drizzle migrations automatically on first `pnpm dev` — no manual migration step needed.
+**Migrations**: Payload does NOT run migrations automatically in production. The `build` script in `package.json` runs `payload migrate` before `next build` so migrations apply to Neon during Vercel deployment. When adding new collections/fields: run `pnpm payload migrate:create --name <name>`, commit the generated files in `src/migrations/`, then push — Vercel will apply them on next deploy.
 
 ## Environment Variables
 
