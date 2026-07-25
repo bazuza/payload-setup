@@ -1,10 +1,11 @@
+import { Button } from '@/components/ui/Button'
 import { Heading } from '@/components/ui/Heading'
 import { Image } from '@/components/ui/Image'
 import { Text } from '@/components/ui/Text'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-24">
+    <main className="flex min-h-screen flex-col gap-4 p-24">
       <Heading tag="h1" className="text-4xl font-bold">
         Elucient
       </Heading>
@@ -18,6 +19,20 @@ export default function Home() {
         Small span text
       </Text>
       <Text breakLine>{`Line one\nLine two`}</Text>
+      <div className="flex flex-wrap gap-3">
+        <Button>Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="link">Link</Button>
+        <Button disabled>Disabled</Button>
+        <Button state="loading">Loading</Button>
+        <Button state="success">Success</Button>
+        <Button state="error">Error</Button>
+        <Button size="sm" variant="secondary">
+          Small
+        </Button>
+        <Button size="lg">Large</Button>
+      </div>
       <Image
         src="https://picsum.photos/800/600"
         width={800}
