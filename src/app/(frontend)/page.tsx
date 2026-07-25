@@ -1,4 +1,5 @@
 import { Heading } from '@/components/ui/Heading'
+import { Image } from '@/components/ui/Image'
 import { Text } from '@/components/ui/Text'
 
 export default function Home() {
@@ -17,6 +18,17 @@ export default function Home() {
         Small span text
       </Text>
       <Text breakLine>{`Line one\nLine two`}</Text>
+      <Image
+        src="https://picsum.photos/800/600"
+        width={800}
+        height={600}
+        alt="Placeholder"
+        fallback={
+          <div className="flex h-[600px] w-[800px] items-center justify-center bg-gray-200 text-gray-400">
+            Failed to load
+          </div>
+        }
+      />
     </main>
   )
 }

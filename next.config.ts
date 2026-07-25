@@ -4,11 +4,8 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   serverExternalPackages: ['sharp'],
   images: {
-    localPatterns: [
-      {
-        pathname: '/api/media/file/**',
-      },
-    ],
+    remotePatterns: [{ hostname: 'picsum.photos' }],
+    localPatterns: [{ pathname: '/api/media/file/**' }],
   },
   webpack: (webpackConfig) => {
     webpackConfig.resolve.extensionAlias = {
