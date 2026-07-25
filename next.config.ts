@@ -3,9 +3,6 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['sharp'],
-  outputFileTracingIncludes: {
-    '/**': ['./node_modules/sharp/**/*', './node_modules/@img/**/*'],
-  },
   images: {
     localPatterns: [
       {
