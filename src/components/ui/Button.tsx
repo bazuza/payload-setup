@@ -24,6 +24,12 @@ const widthClasses: Record<ButtonWidth, string> = {
   half: 'w-1/2',
 }
 
+const stateColorClasses: Record<ButtonState, string> = {
+  loading: '',
+  success: 'bg-success text-white',
+  error: 'bg-error text-white',
+}
+
 function StateIcon({ state }: { state: ButtonState }) {
   if (state === 'loading') {
     return (
@@ -68,7 +74,7 @@ export function Button({
   const classes = [
     'inline-flex cursor-pointer items-center justify-center gap-2 rounded font-medium transition-colors',
     'disabled:cursor-not-allowed disabled:opacity-50',
-    variantClasses[variant],
+    state ? stateColorClasses[state] : variantClasses[variant],
     sizeClasses[size],
     width ? widthClasses[width] : '',
     className,
