@@ -27,10 +27,10 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URI || process.env.DATABASE_URL || '',
-      // max:1 is needed for Vercel serverless — but in dev it deadlocks because
-      // connect.js calls pool.connect() for keepalive, consuming the only slot
-      // before pushDevSchema can acquire a connection.
-      max: process.env.NODE_ENV === 'production' ? 1 : 10,
+      // connect.js holds 1 slot for keepalive; migrate() + request handlers need
+      // additional slots. max:1 deadlocks in production just like in dev.
+      // max:3 = keepalive + migrations + request, without exhausting Neon's limit.
+      max: process.env.NODE_ENV === 'production' ? 3 : 10,
     },
   }),
   sharp,
