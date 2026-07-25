@@ -44,7 +44,17 @@
       "@parcel/watcher",
       "esbuild",
       "sharp"
-    ]
+    ],
+    "supportedArchitectures": {
+      "os": [
+        "linux",
+        "current"
+      ],
+      "cpu": [
+        "x64",
+        "current"
+      ]
+    }
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
