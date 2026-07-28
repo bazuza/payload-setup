@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url'
 
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import sharp from 'sharp'
 
@@ -20,6 +21,11 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  email: resendAdapter({
+    defaultFromAddress: process.env.FROM_EMAIL || '',
+    defaultFromName: 'Elucient',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   collections: [Pages, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
