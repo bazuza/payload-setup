@@ -11,6 +11,7 @@ export default async function Home() {
     collection: 'pages',
     where: { slug: { equals: 'home' } },
     limit: 1,
+    draft: false,
   })
 
   const page = docs[0]

@@ -3,6 +3,9 @@ import { HeroBlock } from '@/blocks/Hero/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
+  versions: {
+    drafts: true,
+  },
   admin: {
     useAsTitle: 'slug',
   },
