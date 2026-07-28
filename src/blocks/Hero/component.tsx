@@ -13,7 +13,7 @@ export default function HeroBlockComponent({ data }: { data: HeroBlock }) {
         {title}
       </Heading>
       {description && (
-        <Text size="lg" className="max-w-2xl text-gray-500">
+        <Text size="lg" breakLine className="max-w-2xl text-gray-500">
           {description}
         </Text>
       )}
