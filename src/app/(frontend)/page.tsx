@@ -1,49 +1,31 @@
-import { Button } from '@/components/ui/Button'
-import { Heading } from '@/components/ui/Heading'
-import { Image } from '@/components/ui/Image'
-import { Text } from '@/components/ui/Text'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { RenderBlocks } from '@/blocks'
 
-export default function Home() {
+export default async function Home() {
+  const payload = await getPayload({ config: configPromise })
+
+  const { docs } = await payload.find({
+    collection: 'pages',
+    where: { slug: { equals: 'home' } },
+    limit: 1,
+  })
+
+  const page = docs[0]
+
+  if (!page) {
+    return (
+      <main className="flex min-h-screen items-center justify-center">
+        <p className="text-gray-400">
+          No homepage found. Create a page with slug &#34;home&#34; in the admin.
+        </p>
+      </main>
+    )
+  }
+
   return (
-    <main className="flex min-h-screen flex-col gap-4 p-24">
-      <Heading tag="h1" className="text-4xl font-bold">
-        Elucient
-      </Heading>
-      <Heading className="text-2xl text-gray-500">Default h2 heading</Heading>
-      <Heading tag="h3" className="text-xl text-gray-400">
-        h3 heading
-      </Heading>
-      <Text size="subtitle-1">Subtitle 1 text</Text>
-      <Text size="lg">Large paragraph text</Text>
-      <Text size="sm" tag="span">
-        Small span text
-      </Text>
-      <Text breakLine>{`Line one\nLine two`}</Text>
-      <div className="flex flex-wrap gap-3">
-        <Button>Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="link">Link</Button>
-        <Button disabled>Disabled</Button>
-        <Button state="loading">Loading</Button>
-        <Button state="success">Success</Button>
-        <Button state="error">Error</Button>
-        <Button size="sm" variant="secondary">
-          Small
-        </Button>
-        <Button size="lg">Large</Button>
-      </div>
-      <Image
-        src="https://picsum.photos/800/600"
-        width={800}
-        height={600}
-        alt="Placeholder"
-        fallback={
-          <div className="flex h-[600px] w-[800px] items-center justify-center bg-gray-200 text-gray-400">
-            Failed to load
-          </div>
-        }
-      />
+    <main>
+      <RenderBlocks blocks={page.blocks} />
     </main>
   )
 }
