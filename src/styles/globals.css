@@ -6,6 +6,9 @@
 }
 
 @theme {
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-hedvig), ui-serif, Georgia, serif;
+
   /* Brand */
   --color-brand-50: #eff6ff;
   --color-brand-100: #dbeafe;
@@ -30,4 +33,19 @@
   --color-warning-light: #fef3c7;
   --color-warning: #d97706;
   --color-warning-dark: #b45309;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+  }
 }

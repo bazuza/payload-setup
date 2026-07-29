@@ -11,11 +11,11 @@ export default function HeroBlockComponent({ data }: { data: HeroBlock }) {
     <section className="py-24">
       <div className="container">
         <div className="flex flex-col gap-6">
-          <Heading tag="h1" className="text-5xl font-bold">
+          <Heading tag="h1" className="text-5xl">
             {title}
           </Heading>
           {description && (
-            <Text size="lg" breakLine className="max-w-2xl text-gray-500">
+            <Text size="lg" breakLine className="max-w-2xl">
               {description}
             </Text>
           )}
