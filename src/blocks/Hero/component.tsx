@@ -20,9 +20,11 @@ export default function HeroBlockComponent({ data }: { data: HeroBlock }) {
             </Text>
           )}
           {button?.label && button?.url && (
-            <Link href={button.url}>
-              <Button size="lg">{button.label}</Button>
-            </Link>
+            <div className="pt-2">
+              <Link href={button.url}>
+                <Button size="lg">{button.label}</Button>
+              </Link>
+            </div>
           )}
         </div>
       </div>
